@@ -41,7 +41,6 @@ resource "aws_instance" "instance" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.subnet[count.index].id
   security_groups = [aws_security_group.instance_sg.id]
+  key_name      = var.key_name
 
-  // Define other instance settings here
-  // For example, key_name, user_data, etc.
 }
