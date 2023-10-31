@@ -10,7 +10,7 @@ resource "aws_subnet" "subnet" {
   count             = 3
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.${count.index + 1}.0/24"
-  availability_zone = element(["a", "b", "c"], count.index)
+  availability_zone = element(["ap-south-1a", "ap-south-1b", "ap-south-1c"], count.index)
   map_public_ip_on_launch = true
 }
 
@@ -39,8 +39,9 @@ resource "aws_instance" "instance" {
   count         = 2
   ami           = var.instance_ami
   instance_type = var.instance_type
-  subnet_id     = element(aws_subnet.subnet[*].id, count.index)
+  subnet_id     = aws_subnet.subnet[count.index].id
   security_groups = [aws_security_group.instance_sg.id]
-  key_name      = var.key_name
-}
 
+  // Define other instance settings here
+  // For example, key_name, user_data, etc.
+}
